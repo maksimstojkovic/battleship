@@ -1,5 +1,5 @@
 const path = require("path");
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   // Use in development
@@ -20,7 +20,7 @@ module.exports = {
   },
   // plugins: [
   //   new HtmlWebpackPlugin({
-  //     title: 'Output Management',
+  //     title: "Output Management",
   //   }),
   // ],
   module: {
@@ -43,29 +43,29 @@ module.exports = {
       },
       // {
       //   test: /\.(csv|tsv)$/i,
-      //   use: ['csv-loader'],
+      //   use: ["csv-loader"],
       // },
       // {
       //   test: /\.xml$/i,
-      //   use: ['xml-loader'],
+      //   use: ["xml-loader"],
       // },
       // {
       //   test: /\.toml$/i,
-      //   type: 'json',
+      //   type: "json",
       //   parser: {
       //     parse: toml.parse,
       //   },
       // },
       // {
       //   test: /\.yaml$/i,
-      //   type: 'json',
+      //   type: "json",
       //   parser: {
       //     parse: yaml.parse,
       //   },
       // },
       // {
       //   test: /\.json5$/i,
-      //   type: 'json',
+      //   type: "json",
       //   parser: {
       //     parse: json5.parse,
       //   },
