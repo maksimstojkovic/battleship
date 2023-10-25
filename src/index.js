@@ -1,0 +1,3 @@
+const gameloop = () => {};
+
+export { gameloop };
