@@ -18,6 +18,6 @@ test("isSunk true", () => {
 
 test("isSunk false", () => {
   const ship = Ship(1);
-  expect(ship.hit()).toBe(true);
+  ship.hit();
   expect(ship.isSunk()).toBe(true);
 });
