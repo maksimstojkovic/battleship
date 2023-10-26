@@ -2,7 +2,12 @@ const Ship = (initialHp) => {
   let hp = initialHp;
 
   const hit = () => {
-    hp--;
+    console.log(hp);
+    if (hp > 0) {
+      hp--;
+      return true;
+    }
+    return false;
   };
 
   const isSunk = () => hp <= 0;
