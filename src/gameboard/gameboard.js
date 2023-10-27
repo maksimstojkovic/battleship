@@ -11,6 +11,10 @@ const Gameboard = (width, height) => {
     }
   }
 
+  const getWidth = () => width;
+  const getHeight = () => height;
+  const getShips = () => ships;
+
   const placeShip = (coord1, coord2) => {
     const minX = Math.min(coord1[0], coord2[0]);
     const maxX = Math.max(coord1[0], coord2[0]);
