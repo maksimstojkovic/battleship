@@ -30,6 +30,7 @@ body {
 
 .status {
   width: 80%;
+  height: 5rem;
 
   text-align: center;
 }
@@ -43,7 +44,30 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: 20px;
+
+  .ship-count {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .count-title {
+      margin: 0;
+      padding: 0;
+
+      font-size: 1.5rem;
+      text-align: center;
+      text-wrap: nowrap;
+    }
+
+    .count-value {
+      margin: 0;
+      padding: 0;
+
+      font-size: 5rem;
+    }
+  }
 
   .board {
     display: flex;
@@ -51,6 +75,10 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
+
+    &.player-1 {
+      margin-right: 40px;
+    }
 
     .title {
       margin: 0 0 0 var(--grid-cell-size);

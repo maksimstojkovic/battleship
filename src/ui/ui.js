@@ -18,9 +18,7 @@ const UI = (() => {
   const addGridListener = (player, handler) => {
     [player1Obj, player2Obj].forEach((p, index) => {
       if (p === player) {
-        const grid = document.querySelector(
-          `.board:nth-of-type(${index + 1}) .grid`
-        );
+        const grid = document.querySelector(`.board.player-${index + 1} .grid`);
         grid.querySelectorAll(".grid-cell").forEach((cell) => {
           cell.addEventListener("click", handler);
         });
@@ -127,13 +125,24 @@ const UI = (() => {
     }
   };
 
+  const updateShipCount = (player, index) => {
+    const opponent = index === 0 ? player2Obj : player1Obj;
+    const value = document.querySelector(
+      `.ship-count.player-${index + 1} .count-value`
+    );
+
+    value.textContent = opponent
+      .getBoard()
+      .getShips()
+      .reduce((sunkCount, ship) => sunkCount + (ship.isSunk() ? 1 : 0), 0);
+  };
+
   const renderGrids = () => {
     [player1Obj, player2Obj].forEach((player, index) => {
-      const grid = document.querySelector(
-        `.board:nth-of-type(${index + 1}) .grid`
-      );
+      const grid = document.querySelector(`.board.player-${index + 1} .grid`);
       grid.replaceChildren();
       buildGrid(grid, player);
+      updateShipCount(player, index);
     });
   };
 
@@ -146,8 +155,17 @@ const UI = (() => {
     // Create status message and boards
     appendChild(container, "h1", "status");
     const boards = appendChild(container, "div", "boards");
+
+    const player1Count = appendChild(boards, "div", "ship-count player-1");
+    appendChild(player1Count, "h3", "count-title").textContent = "Ships Sunk";
+    appendChild(player1Count, "p", "count-value").textContent = 0;
+
     const player1 = appendChild(boards, "div", "board player-1");
     const player2 = appendChild(boards, "div", "board player-2");
+
+    const player2Count = appendChild(boards, "div", "ship-count player-2");
+    appendChild(player2Count, "h3", "count-title").textContent = "Ships Sunk";
+    appendChild(player2Count, "p", "count-value").textContent = 0;
 
     const player1Title = appendChild(player1, "h2", "title");
     player1Title.textContent = "Player";
