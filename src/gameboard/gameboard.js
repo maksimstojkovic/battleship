@@ -99,7 +99,40 @@ const Gameboard = (width, height) => {
     return allSunk;
   };
 
-  return { placeShip, receiveAttack, isSpaceHit, allShipsSunk };
+  const printBoard = () => {
+    const output = [];
+
+    for (let y = 0; y < height; y++) {
+      output.push(height - y - 1);
+      for (let x = 0; x < width; x++) {
+        output.push(
+          board[x][height - y - 1].hit
+            ? "X"
+            : board[x][height - y - 1].ship
+            ? "O"
+            : " "
+        );
+      }
+      output.push("\n");
+    }
+
+    output.push(" ");
+    for (let x = 0; x < width; x++) output.push(x);
+
+    console.log(output.join(""));
+  };
+
+  return {
+    getWidth,
+    getHeight,
+    getShips,
+    placeShip,
+    receiveAttack,
+    isSpaceHit,
+    isShipHit,
+    allShipsSunk,
+    printBoard,
+  };
 };
 
 export { Gameboard };
