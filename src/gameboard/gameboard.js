@@ -83,7 +83,7 @@ const Gameboard = (width, height) => {
     let allSunk = true;
 
     for (let ship of ships) {
-      if (ship.isSunk()) {
+      if (!ship.isSunk()) {
         allSunk = false;
         break;
       }
