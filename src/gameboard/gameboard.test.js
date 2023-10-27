@@ -83,7 +83,7 @@ test("allShipsSunk true", () => {
 test("allShipsSunk false", () => {
   const board = Gameboard(10, 10);
   board.placeShip([0, 0], [1, 0]);
-  expect(board.allShipsSunk()).toBe(true);
+  expect(board.allShipsSunk()).toBe(false);
 });
 
 test("allShipsSunk true for empty board", () => {
