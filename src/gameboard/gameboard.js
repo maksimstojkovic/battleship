@@ -79,6 +79,13 @@ const Gameboard = (width, height) => {
     return board[x][y].hit;
   };
 
+  const isShipHit = (coord) => {
+    let x = coord[0];
+    let y = coord[1];
+
+    return isSpaceHit(coord) && !!board[x][y].ship;
+  };
+
   const allShipsSunk = () => {
     let allSunk = true;
 
