@@ -5,6 +5,7 @@ const UI = (() => {
   const body = document.querySelector("body");
   let player1Obj = null;
   let player2Obj = null;
+  let savedCoordinate = null;
 
   const setStatus = (msg) => {
     document.querySelector(".status").textContent = msg;
@@ -27,9 +28,32 @@ const UI = (() => {
     });
   };
 
+  const placeShipClickHandler = (e, player, shipLength, callback) => {
+    const x = Number(e.target.dataset.col);
+    const y = Number(e.target.dataset.row);
+
+    if (!savedCoordinate) {
+      savedCoordinate = [x, y];
+    } else {
+      const coord1 = savedCoordinate;
+      const coord2 = [x, y];
+      savedCoordinate = null;
+
+      const minX = Math.min(coord1[0], coord2[0]);
+      const maxX = Math.max(coord1[0], coord2[0]);
+      const minY = Math.min(coord1[1], coord2[1]);
+      const maxY = Math.max(coord1[1], coord2[1]);
+
+      if (maxX - minX + (maxY - minY) + 1 === shipLength) {
+        player.getBoard().placeShip(coord1, coord2);
+      }
+    }
+    callback();
+  };
+
   const attackClickHandler = (e) => {
-    const x = e.target.dataset.col;
-    const y = e.target.dataset.row;
+    const x = Number(e.target.dataset.col);
+    const y = Number(e.target.dataset.row);
 
     // Already hit
     if (player2Obj.getBoard().isSpaceHit([x, y])) return;
@@ -84,7 +108,13 @@ const UI = (() => {
         const shipHit = player.getBoard().isShipHit([x, y]);
         const classes =
           "grid-cell" +
-          (shipHit ? " hit" : spaceHit ? " miss" : isShip ? " ship" : "");
+          (shipHit
+            ? " hit"
+            : spaceHit
+            ? " miss"
+            : isShip && player != player2Obj
+            ? " ship"
+            : "");
         const space = appendChild(parent, "button", classes);
         space.dataset.col = x;
         space.dataset.row = y;
@@ -114,17 +144,17 @@ const UI = (() => {
     const container = prependChild(body, "div", "container");
 
     // Create status message and boards
-    appendChild(container, "h1", "status").textContent = "Placeholder";
+    appendChild(container, "h1", "status");
     const boards = appendChild(container, "div", "boards");
     const player1 = appendChild(boards, "div", "board player-1");
     const player2 = appendChild(boards, "div", "board player-2");
 
     const player1Title = appendChild(player1, "h2", "title");
-    player1Title.textContent = "Player 1";
+    player1Title.textContent = "Player";
     appendChild(player1, "div", "grid");
 
     const player2Title = appendChild(player2, "h2", "title");
-    player2Title.textContent = "Player 2";
+    player2Title.textContent = "Computer";
     appendChild(player2, "div", "grid");
 
     renderGrids();
@@ -133,6 +163,7 @@ const UI = (() => {
   return {
     setStatus,
     addGridListener,
+    placeShipClickHandler,
     attackClickHandler,
     renderGrids,
     render,
