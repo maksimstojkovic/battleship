@@ -1,3 +1,4 @@
+import "./style.scss";
 import { AI, Player } from "./player/player";
 
 const printBoards = (player1, player2) => {
