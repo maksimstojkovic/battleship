@@ -28,8 +28,8 @@ const Gameboard = (width, height) => {
     }
 
     // Overlap
-    for (let x = 0; x < width; x++) {
-      for (let y = 0; y < height; y++) {
+    for (let x = minX; x <= maxX; x++) {
+      for (let y = minY; y <= maxY; y++) {
         if (board[x][y].ship) return false;
       }
     }
