@@ -35,6 +35,7 @@ const Gameboard = (width, height) => {
     }
 
     const ship = Ship(maxX - minX + (maxY - minY));
+    ships.push(ship);
 
     for (let x = minX; x <= maxX; x++) {
       for (let y = minY; y <= maxY; y++) {
