@@ -38,7 +38,7 @@ const Gameboard = (width, height) => {
       }
     }
 
-    const ship = Ship(maxX - minX + (maxY - minY));
+    const ship = Ship(maxX - minX + (maxY - minY) + 1);
     ships.push(ship);
 
     for (let x = minX; x <= maxX; x++) {
@@ -70,33 +70,29 @@ const Gameboard = (width, height) => {
     return false;
   };
 
-  const isSpaceHit = (coord) => {
+  const checkCoordinate = (coord, func) => {
     let x = coord[0];
     let y = coord[1];
 
     if (x < 0 || x >= width || y < 0 || y >= height) return false;
 
-    return board[x][y].hit;
+    return func(coord);
+  };
+
+  const isShip = (coord) => {
+    return checkCoordinate(coord, (coord) => !!board[coord[0]][coord[1]].ship);
+  };
+
+  const isSpaceHit = (coord) => {
+    return checkCoordinate(coord, (coord) => board[coord[0]][coord[1]].hit);
   };
 
   const isShipHit = (coord) => {
-    let x = coord[0];
-    let y = coord[1];
-
-    return isSpaceHit(coord) && !!board[x][y].ship;
+    return isSpaceHit(coord) && isShip(coord);
   };
 
   const allShipsSunk = () => {
-    let allSunk = true;
-
-    for (let ship of ships) {
-      if (!ship.isSunk()) {
-        allSunk = false;
-        break;
-      }
-    }
-
-    return allSunk;
+    return ships.reduce((allSunk, ship) => allSunk && ship.isSunk(), true);
   };
 
   const printBoard = () => {
@@ -128,6 +124,7 @@ const Gameboard = (width, height) => {
     getShips,
     placeShip,
     receiveAttack,
+    isShip,
     isSpaceHit,
     isShipHit,
     allShipsSunk,

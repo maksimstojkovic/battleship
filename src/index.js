@@ -1,5 +1,6 @@
 import "./style.scss";
 import { AI, Player } from "./player/player";
+import { UI } from "./ui/ui";
 
 const printBoards = (player1, player2) => {
   console.log("----------");
@@ -46,8 +47,7 @@ const requestCoordinates = (msg) => {
 };
 
 const placeAllShips = (player) => {
-  const availableShips = [2];
-  // const availableShips = [2, 3, 3, 4, 5];
+  const availableShips = [2, 3, 3, 4, 5];
 
   for (let shipLength of availableShips) {
     for (;;) {
@@ -75,8 +75,7 @@ const placeAllShips = (player) => {
 };
 
 const placeAllShipsAuto = (player) => {
-  const availableShips = [2];
-  // const availableShips = [2, 3, 3, 4, 5];
+  const availableShips = [2, 3, 3, 4, 5];
   const playerBoard = player.getBoard();
 
   for (let shipLength of availableShips) {
@@ -105,62 +104,34 @@ const placeAllShipsAuto = (player) => {
 };
 
 const Game = (() => {
-  const play = () => {
-    const player = Player();
-    const ai = AI();
+  let player1 = null;
+  let player2 = null;
 
-    // placeAllShips(player);
-    placeAllShipsAuto(player);
-    placeAllShipsAuto(ai);
+  const getPlayer1 = () => player1;
+  const getPlayer2 = () => player2;
 
-    while (!player.getBoard().allShipsSunk() && !ai.getBoard().allShipsSunk()) {
-      let msg = "Enter the coordinate to strike in the format [x,y]";
-      for (;;) {
-        printBoards(player, ai);
-
-        // Player attacks
-
-        const coord = requestCoordinates(msg);
-        const attackSuccessful = player.attackPlayer(ai, ...coord);
-
-        if (!attackSuccessful) {
-          msg = "Invalid coordinate specified, try again using format [x,y]";
-          continue;
-        }
-
-        if (ai.getBoard().isShipHit(...coord) && !ai.getBoard().allShipsSunk())
-          continue;
-
-        break;
-      }
-
-      // Check win
-      if (ai.getBoard().allShipsSunk()) break;
-
-      for (;;) {
-        // AI attacks
-        if (!ai.attackPlayer(player)) continue;
-
-        if (
-          player.getBoard().isShipHit(ai.getLastAttackCoordinate()) &&
-          !player.getBoard().allShipsSunk()
-        )
-          continue;
-
-        break;
-      }
-    }
-
-    if (ai.getBoard().allShipsSunk()) {
-      // Player wins
-    } else {
-      // Computer wins
-    }
+  const init = () => {
+    player1 = Player();
+    player2 = AI();
   };
 
-  return { play };
+  const play = () => {
+    // placeAllShips(player);
+    placeAllShipsAuto(player1);
+    placeAllShipsAuto(player2);
+
+    UI.renderGrids();
+    UI.addGridListener(player2, UI.attackClickHandler);
+  };
+
+  return { getPlayer1, getPlayer2, init, play };
 })();
 
+// Game.play();
+Game.init();
+UI.render(Game.getPlayer1(), Game.getPlayer2());
 Game.play();
+
+// UI.setStatus("Select positions for ship of length 2");
 
 export { Game };

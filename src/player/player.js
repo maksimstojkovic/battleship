@@ -19,27 +19,18 @@ const Player = () => {
 
 const AI = () => {
   const player = Player();
-  let lastAttackCoordinate = null;
 
-  const getLastAttackCoordinate = () => lastAttackCoordinate;
-
-  const attackPlayer = (player) => {
-    for (;;) {
-      const x = Math.floor(Math.random() * boardSize);
-      const y = Math.floor(Math.random() * boardSize);
-
-      player.getBoard().receiveAttack([x, y]);
-
-      // Loop until confirmed hit
-      if (!player.getBoard().isSpaceHit([x, y])) continue;
-
-      lastAttackCoordinate = [x, y];
-
-      return true;
-    }
+  const generateCoordinate = () => {
+    const x = Math.floor(Math.random() * boardSize);
+    const y = Math.floor(Math.random() * boardSize);
+    return [x, y];
   };
 
-  return { getLastAttackCoordinate, attackPlayer, getBoard: player.getBoard };
+  return {
+    generateCoordinate,
+    attackPlayer: player.attackPlayer,
+    getBoard: player.getBoard,
+  };
 };
 
 export { Player, AI };
